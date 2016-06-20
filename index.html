@@ -33,14 +33,47 @@
             var apiKey = '72b56103e43843412a992a8d64bf96e9',
                 getUrl = 'https://api.themoviedb.org/3/search/movie',
                 currentPage = 1,
-                query = query ;
+                query = query || 'test';
 
-                console.log(query)
+                //console.log(query)
 
             $http.get(getUrl +'?api_key='+ apiKey +'&query='+ query +'&page='+ currentPage).success(callback);
           }
         };
       });
+
+
+// app.factory('Data', function ($http, $q) {
+//     return {
+//         ajaxItems: function () {
+//             var deferred = $q.defer();
+//             $http({ method: "POST", url: "/Home/GetSearchResults" })
+//                 .success(function (data, status, headers, config) {
+//                     deferred.resolve(data);
+//                 }).error(function (data, status, headers, config) {
+//                     deferred.reject(status);
+//                 });
+//             return deferred.promise;
+//         }
+//     }
+// });
+
+// app.controller('ResultsCtrl', ['$scope', 'Data', function ($scope, Data) {
+//     $scope.get = function () {
+//         $scope.items = Data.ajaxItems();
+//         //the model returns a promise and THEN items
+//         $scope.items.then(function (items) {
+//             $scope.items = items;
+//         }, function (status) {
+//             console.log(status);
+//         });
+//     };
+// }]);
+
+
+
+
+      
 
       countryApp.controller('CountryListCtrl', function ($scope, countries){
         countries.list(function(countries) {

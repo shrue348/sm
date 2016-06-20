@@ -1,0 +1,89 @@
+<html ng-app="countryApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Angular.js Example</title>
+    <link rel="stylesheet" href="bower_components/normalize-css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular-route.min.js"></script>
+    <script>
+      var countryApp = angular.module('countryApp', ['ngRoute']);
+
+      countryApp.config(function($routeProvider) {
+        $routeProvider.
+          when('/', {
+            templateUrl: 'views/list.html',
+            controller: 'CountryListCtrl'
+          }).
+          when('/:countryName', {
+            templateUrl: 'views/detail.html',
+            controller: 'CountryDetailCtrl'
+          }).
+          otherwise({
+            redirectTo: '/'
+          });
+      });
+
+      countryApp.factory('countries', function($http){
+        return {
+          list: function(callback, query){
+            var apiKey = '72b56103e43843412a992a8d64bf96e9',
+                getUrl = 'https://api.themoviedb.org/3/search/movie',
+                currentPage = 1,
+                query = query || 'test';
+
+                //console.log(query)
+
+            $http.get(getUrl +'?api_key='+ apiKey +'&query='+ query +'&page='+ currentPage).success(callback);
+          }
+        };
+      });
+
+      countryApp.controller('CountryListCtrl', function ($scope, countries){
+        countries.list(function(countries) {
+          $scope.countries = countries;
+          $scope.list = countries.results;
+        }); 
+
+        $scope.thumb = 'http://image.tmdb.org/t/p/w500';
+        $scope.dummy = '/dummy.png';
+
+
+        $scope.search = function(query){
+          countries.list(function(countries, query) {
+            $scope.countries = countries;
+            $scope.list = countries.results;
+          });
+
+
+          //$scope.countries = countries;
+          console.log(query);
+        };
+
+      });
+
+      countryApp.controller('CountryDetailCtrl', function ($scope, $routeParams, $http){
+            $scope.apiKey = '72b56103e43843412a992a8d64bf96e9';
+            $scope.thumb = 'http://image.tmdb.org/t/p/w500';
+            $scope.data = {};
+
+            $scope.detail = function(query){ 
+            $scope.query = query ||  $routeParams.countryName;
+
+            $http.get('https://api.themoviedb.org/3/movie/'+ $scope.query +'?api_key='+ $scope.apiKey)
+              .success(function(data, status, headers, config) {
+                $scope.data = data;
+              });
+          }
+
+          $scope.detail();
+        });
+    </script>
+  </head>
+  <body>
+    <div ng-view></div>
+  </body>
+</html>

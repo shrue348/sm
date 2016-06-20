@@ -33,9 +33,9 @@
             var apiKey = '72b56103e43843412a992a8d64bf96e9',
                 getUrl = 'https://api.themoviedb.org/3/search/movie',
                 currentPage = 1,
-                query = query || 'test';
+                query = query ;
 
-                //console.log(query)
+                console.log(query)
 
             $http.get(getUrl +'?api_key='+ apiKey +'&query='+ query +'&page='+ currentPage).success(callback);
           }

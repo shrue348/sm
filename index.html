@@ -75,7 +75,11 @@
 
       
 
-      countryApp.controller('CountryListCtrl', function ($scope, countries){
+      countryApp.controller('CountryListCtrl', function ($scope, $http, countries){
+        $scope.countries;
+        $scope.list;
+        $scope.query;
+
         countries.list(function(countries) {
           $scope.countries = countries;
           $scope.list = countries.results;
@@ -86,34 +90,40 @@
 
 
         $scope.search = function(query){
-          countries.list(function(countries, query) {
-            $scope.countries = countries;
-            $scope.list = countries.results;
-          });
+          var apiKey = '72b56103e43843412a992a8d64bf96e9',
+              getUrl = 'https://api.themoviedb.org/3/search/movie',
+              currentPage =  1;
+
+          $scope.query = query || $scope.query;
 
 
-          //$scope.countries = countries;
-          console.log(query);
+          $http.get(getUrl +'?api_key='+ apiKey +'&query='+ $scope.query +'&page='+ currentPage)
+            .success(function(data, status, headers, config) {
+              $scope.countries = data;
+              $scope.list = data.results;
+              
+            
+            });
         };
 
       });
 
       countryApp.controller('CountryDetailCtrl', function ($scope, $routeParams, $http){
-            $scope.apiKey = '72b56103e43843412a992a8d64bf96e9';
-            $scope.thumb = 'http://image.tmdb.org/t/p/w500';
-            $scope.data = {};
+          $scope.apiKey = '72b56103e43843412a992a8d64bf96e9';
+          $scope.thumb = 'http://image.tmdb.org/t/p/w500';
+          $scope.data = {};
 
-            $scope.detail = function(query){ 
-            $scope.query = query ||  $routeParams.countryName;
+          $scope.detail = function(query){ 
+          $scope.query = query ||  $routeParams.countryName;
 
-            $http.get('https://api.themoviedb.org/3/movie/'+ $scope.query +'?api_key='+ $scope.apiKey)
-              .success(function(data, status, headers, config) {
-                $scope.data = data;
-              });
-          }
+          $http.get('https://api.themoviedb.org/3/movie/'+ $scope.query +'?api_key='+ $scope.apiKey)
+            .success(function(data, status, headers, config) {
+              $scope.data = data;
+            });
+        }
 
-          $scope.detail();
-        });
+        $scope.detail();
+      });
     </script>
   </head>
   <body>

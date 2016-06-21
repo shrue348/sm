@@ -1,17 +1,17 @@
 <div class="wrapper mgt30 mgb30 item_row" >
 	<h1 class="animated fadeIn">{{data.title}}</h1>
 	<div class="row-fluid">
-		<div class="span6 img_row animated fadeIn show2">
+		<div class="span4 img_row animated fadeIn show2">
 			<img ng-if="data.poster_path" src="{{thumb}}{{data.poster_path}}" alt="{{data.title}}"/>
 			<img ng-if="data.poster_path === null" src="img/dummy.png"/>
 		</div>
-		<div class="span6">
+		<div class="span8">
 			<ul>
 				<li class="animated fadeIn show3">Original title: {{data.original_title}}</li>
 				<li class="animated fadeIn show4">Year: {{data.release_date | date : 'yyyy'}}</li>
 				<li class="animated fadeIn show5">Overview: {{data.overview}}</li>
 			</ul>
-			<a href="#/" class="animated fadeIn show9">Назад</a>
+			<a href="#/" class="btn animated fadeIn show6">Go back</a>
 		</div>
 	</div>
 </div>

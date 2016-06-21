@@ -1,34 +1,37 @@
-<div class="wrapper mgt30 mgb30" >
-	<h1>movieSearch app</h1>
+<div class="wrapper mgt30 mgb30 list_wrap" >
+	<div ng-class="{top: movies.total_results > 0}" class="main_form clear">
+		<h1><img src="img/logo.png" alt="movieSearchApp" /> <span>movieSearch app</span></h1>
+		<div class="search_form row-fluid" ng-submit="search(query)">
+			<form>
+				<input type="text" ng-model="query" autofocus />
+				<input type="submit" value="Go!"/>
+			</form>
+		</div>
 
-	<div class="search_form row-fluid" ng-submit="search(query)">
-		<form>
-			<input type="text" ng-model="query" autofocus />
-			<input type="submit" value="Go!"/>
-		</form>
+		<div class="items_row row-fluid" ng-if="movies.total_results">
+			<a href="#/{{item.id}}" class="item span3 animated fadeIn" ng-repeat="item in list">
+				<div class="img_row">
+					<img ng-if="item.poster_path" src="{{thumb}}{{item.poster_path}}" alt="{{item.title}}"/>
+					<img ng-if="item.poster_path === null" src="img/dummy.png"/>
+				</div>
+				<div class="desc">
+					<div class="title h3">{{item.title}} ({{item.release_date | date : 'yyyy'}})</div>
+				</div>
+			</a>
+		</div>
+
+		<div ng-if="list && list.length == 0">No movies found</div>
+
+		<div class="row-fluid pagination" ng-if="movies.total_pages > 1">
+			<button class="pull-left btn btn-primary btn-sm" ng-disabled="firstPage()" ng-click="pageBack()">Prev</button>
+			<span>
+				Total items: <span ng-bind="movies['total_results']"></span> <br />
+				Page <span ng-bind="movies['page']"></span> from <span ng-bind="movies['total_pages']"></span>
+			</span>
+	    	<button class="pull-right btn btn-primary btn-sm" ng-disabled="lastPage()" ng-click="pageForward()">Next</button>
+	    </div>
 	</div>
+	
 
 	
-	<div class="items_row row-fluid">
-		<a href="#/{{item.id}}" class="item span3 animated fadeIn" ng-repeat="item in list">
-			<div class="img_row">
-				<img ng-if="item.poster_path" src="{{thumb}}{{item.poster_path}}" alt="{{item.title}}"/>
-				<img ng-if="item.poster_path === null" src="img/dummy.png"/>
-			</div>
-			<div class="desc">
-				<div class="title h3">{{item.title}} ({{item.release_date | date : 'yyyy'}})</div>
-			</div>
-		</a>
-	</div>
-
-	<div ng-if="list && list.length == 0">No movies founds</div>
-
-
-
-	<div class="row-fluid pagination">
-		<button class="pull-left btn btn-primary btn-sm" ng-disabled="firstPage()" ng-click="pageBack()">Назад</button>
-		Total items: <span ng-bind="countries['total_results']"></span>, 
-		Page <span ng-bind="countries['page']"></span> from <span ng-bind="countries['total_pages']"></span>
-    	<button class="pull-right btn btn-primary btn-sm" ng-disabled="lastPage()" ng-click="pageForward()">Вперед</button>
-    </div>
 </div>

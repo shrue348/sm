@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "angular": "^1.5.7",
-    "normalize-css": "^4.1.1"
+    "normalize-css": "^4.1.1",
+    "animate.css": "animate-css#^3.5.2"
   }
 }
